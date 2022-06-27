@@ -10,14 +10,14 @@ d_a = [['권유진', '18학번', 24], ['김정하', '19학번', 23], ['나요셉
 df = pd.DataFrame(d_a)
 df.columns = ['이름', '학번', '나이'] # 이수빈 변경
 df['역할'] = ['학회장','부학회장','부하','부하','부하','부하','부하'] # 나요셉 변경
-#나요셉 등장.
+
 # 입학년도 계산하는 함수
 def ent_year(x):
-    return 20 + int(x[:2]) # 해당 line에 오류 있음. 찾아서 comment 달아보기
-df['입학년도'] = df['나이'].map(ent_year) # 해당 line에 오류 있음. 찾아서 comment 달아보기
+    return int('20' + x[:2]) # 해당 line에 오류 있음. 문자열로 합친 후 int로
+df['입학년도'] = df['학번'].map(ent_year) # 해당 line에 오류 있음. 적용할 칼럼 변경
 
 # 학년
-df['학년'] = df['입학년도'].map(lambda x: 2022 - x) # 해당 line에 오류 있음. 찾아서 comment 달아보기
-df['졸업예정'] = df['이름'].map(lambda x: 2022 + (4-x)) # 해당 line에 오류 있음. 찾아서 comment 달아보기
+df['학년'] = df['입학년도'].map(lambda x: 2022 - x - 1) # 해당 line에 오류 있음. lambda 계산 바르게 변경
+df['졸업예정'] = df['학년'].map(lambda x: 2022 + (4-x) + 1) # 해당 line에 오류 있음. lambda 계산 바르게 변경
 
 print(df)
