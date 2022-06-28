@@ -13,7 +13,7 @@ df['역할'] = ['학회장','부학회장','부하','부하','부하','부하','
 #나요셉 등장.
 # 입학년도 계산하는 함수
 def ent_year(x):
-    return 20 + int(x[:2]) # 해당 line에 오류 있음. 찾아서 comment 달아보기
+    return int(str(20) + str(x[:2])) # 이예진 변경
 df['입학년도'] = df['나이'].map(ent_year) # 해당 line에 오류 있음. 찾아서 comment 달아보기
 
 # 학년
