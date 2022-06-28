@@ -13,11 +13,11 @@ df['역할'] = ['학회장','부학회장','부하','부하','부하','부하','
 
 # 입학년도 계산하는 함수
 def ent_year(x):
-    return int('20' + x[:2]) # 해당 line에 오류 있음. 문자열로 합친 후 int로
-df['입학년도'] = df['학번'].map(ent_year) # 해당 line에 오류 있음. 적용할 칼럼 변경
+    return int(str(20) + str(x[:2])) # 예진이가 수정
+df['입학년도'] = df['학번'].map(ent_year) # 윤경서 변경
 
 # 학년
-df['학년'] = df['입학년도'].map(lambda x: 2022 - x - 1) # 해당 line에 오류 있음. lambda 계산 바르게 변경
-df['졸업예정'] = df['학년'].map(lambda x: 2022 + (4-x) + 1) # 해당 line에 오류 있음. lambda 계산 바르게 변경
+df['학년'] = df['입학년도'].map(lambda x: 2022 - x) # 해당 line에 오류 있음. 찾아서 comment 달아보기
+df['졸업예정'] = df['이름'].map(lambda x: 2022 + (4-x)) # 해당 line에 오류 있음. 찾아서 comment 달아보기
 
 print(df)
