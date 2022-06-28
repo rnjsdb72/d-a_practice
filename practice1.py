@@ -5,13 +5,13 @@ df = pd.DataFrame(d_a)
 df.columns = ['이름', '학번', '나이'] 
 df['역할'] = ['학회장','부학회장','부하','부하','부하','부하','부하'] # 나요셉 변경
 
-# 입학년도 계산하는 함수
+# 가나다라마바사
 def ent_year(x):
     return int(str(20) + x[:2]) 
 df['입학년도'] = df['학번'].map(ent_year) 
-
-# 학년
-df['학년'] = df['입학년도'].map(lambda x: 2022 - x  -1) 
+#학년
+df['학년'] = df['입학년도'].map(lambda x: 2022 - x ) 
 df['졸업예정'] = df['학년'].map(lambda x: 2022 + (5-x) ) 
-
+a = [1,2,3,4,5]
+print(a)
 print(df)
