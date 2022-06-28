@@ -5,7 +5,7 @@ df = pd.DataFrame(d_a)
 df.columns = ['이름', '학번', '나이'] 
 df['역할'] = ['학회장','부학회장','부하','부하','부하','부하','부하'] # 나요셉 변경
 
-# 가나다라마바사
+# 가나다라마바사아자차카타파하
 def ent_year(x):
     return int(str(20) + x[:2]) 
 df['입학년도'] = df['학번'].map(ent_year) 
