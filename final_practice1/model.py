@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F # F 함수 import 추가 _0628나요셉
 class BasicBlock(nn.Module):
     expansion = 1
- # 
+ # #
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1):
         super(BasicBlock, self).__init__()
