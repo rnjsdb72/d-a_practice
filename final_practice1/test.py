@@ -26,10 +26,26 @@ def test():
     criterion = criterion_module(**cfgs.criterion.args._asdict())
 
     # test 코드를 작성하시오.
+    model.eval()
+    loss = 0
+    accuracy = 0
+    correct = 0
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    with torch.no_grad():
+        for image, label in test_dataloader:
+            image = image.to(device)
+            label = label.to(device)
+            output = model(image)
+            loss += criterion(output, label).item()
+            prediction = output.max(1, keepdim = True)[1]
+            correct += prediction.eq(label.view_as(prediction)).sum().item()
     
-
-
+    loss /= len(test_dataloader)
+    accuracy = 100 * correct / len(test_dataloader)
     return loss, accuracy
+
+
 
 if __name__ == '__main__':
     loss, accuracy = test()
