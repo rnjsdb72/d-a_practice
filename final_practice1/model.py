@@ -50,7 +50,29 @@ class Bottleneck(nn.Module):
 
     def forward(self, x):
         # 여기 구현
-
+        identity = x
+        
+        # 1x1 conv layer
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.relu(out)
+        
+        # 3x3 conv layer
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = self.relu(out)
+        
+        # 1x1 conv layer
+        out = self.conv3(out)
+        out = self.bn3(out)
+        
+        # skip connect
+        if self.downsample is not None:
+            identity = self.downsample(x)
+        
+        out += identity
+        out  = self.relu(out)
+    
         return out
 
 class ResNet(nn.Module):
