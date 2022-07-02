@@ -3,6 +3,7 @@ from collections import namedtuple
 from importlib import import_module
 import argparse
 import random
+from tkinter import Y
 
 import torch
 import torch.nn as nn
@@ -34,13 +35,19 @@ def train(num_epochs, model, train_loader, val_loader, optimizer, criterion, val
     start_epoch = 0
     best_accuracy = 0
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+     
     for epoch in range(num_epochs):
         # 학습 코드를 작성하시오.
-        
+        model.train()    
         pbar = tqdm(enumerate(train_loader), total = len(train_loader))
-        for step, input in pbar:
-
+        for step, (x, y) in pbar:
+            x = x.to(device)
+            y = y.to(device)
+            optimizer.zero_grad()
+            output = model(x)
+            running_loss = criterion(output, y)
+            running_loss.backward()
+            optimizer.step()
 
             description =  f'Epoch [{epoch}/{num_epochs}], Step [{step+1}/{len(train_loader)}]: ' 
             description += f'running Loss: {round(running_loss,4)}'
@@ -48,8 +55,16 @@ def train(num_epochs, model, train_loader, val_loader, optimizer, criterion, val
 
         if epoch % val_term == 0:
             # 검증 코드를 작성하시오.
-
-            accuracy_ = 
+            with torch.no_grad():
+                for x, y in val_loader:
+                    x = x.to(device)
+                    y = y.to(device)
+                    ouput = model(x)
+                    val_loss += criterion(ouput, y).item()
+                    prediction = output.max(1, keepdim = True)[1]
+                    correct += prediction.eq(y.view_as(prediction)).sum().item()
+                    
+            accuracy_ = 100. * correct / len(val_loader.dataset)
             print(f'Epoch [{epoch} / {num_epochs}], Accuracy: {accuracy_}')
             if accuracy_ > best_accuracy:
                 print(f'Best Performance at epoch: {epoch}')
