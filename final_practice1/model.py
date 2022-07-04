@@ -9,6 +9,7 @@ class BasicBlock(nn.Module):
         super(BasicBlock, self).__init__()
         if groups != 1 or base_width != 64:
             raise ValueError('BasicBlock only supports groups=1 and base_width=64')
+            # 기본 Default Plane 이 64
         if dilation > 1:
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
@@ -25,7 +26,9 @@ class BasicBlock(nn.Module):
     def forward(self, x): # 수정 0628나요셉
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
-        out += self.downsample(x)  # down sample 은 stride에 따라 조정됨 stride 가 != 1이면 차원 조정 들어감
+        if self.downsample == None :
+          pass
+        else : out += self.downsample(x)  # down sample 은 stride에 따라 조정됨 stride 가 != 1이면 차원 조정 들어감
         out = F.relu(out)
         return out
 
@@ -60,7 +63,7 @@ class ResNet(nn.Module):
     def __init__(self, block, layers, num_classes,
              groups=1, width_per_group=64, replace_stride_with_dilation=None):
         super(ResNet, self).__init__()
-        
+       # _resnet(BasicBlock, [3, 4, 6, 3], **kwargs)
         if replace_stride_with_dilation is None:
             # each element in the tuple indicates if we should replace
             # the 2x2 stride with a dilated convolution instead
