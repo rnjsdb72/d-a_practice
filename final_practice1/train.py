@@ -47,9 +47,17 @@ def train(num_epochs, model, train_loader, val_loader, optimizer, criterion, val
             pbar.set_description(description)
 
         if epoch % val_term == 0:
-            # 검증 코드를 작성하시오.
-
-            accuracy_ = 
+            # 검증 코드를 작성하시오. # 수빈
+            with torch.no_grad():
+                for x, y in val_loader:
+                    x = x.to(device)
+                    y = y.to(device)
+                    ouput = model(x)
+                    val_loss += criterion(ouput, y).item()
+                    prediction = output.max(1, keepdim = True)[1]
+                    correct += prediction.eq(y.view_as(prediction)).sum().item()
+                    
+            accuracy_ = 100. * correct / len(val_loader.dataset)
             print(f'Epoch [{epoch} / {num_epochs}], Accuracy: {accuracy_}')
             if accuracy_ > best_accuracy:
                 print(f'Best Performance at epoch: {epoch}')
