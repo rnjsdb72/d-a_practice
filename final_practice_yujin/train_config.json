@@ -1,0 +1,40 @@
+{
+    "seed": 0,
+    "num_epochs": 50,
+    "val_term": 1,
+    "train_dataloader": {"name": "MnistDataLoader",
+                        "args": {"data_dir": "./datasets/mnist/train",
+                                "batch_size": 32,
+                                "shuffle": true,
+                                "validation_split": 0.3,
+                                "num_workers": 1,
+                                "training": true}},
+    "test_dataloader": {"name": "MnistDataLoader",
+        "args": {"data_dir": "./datasets/mnist/test",
+                "batch_size": 32,
+                "shuffle": false,
+                "validation_split": 0.0,
+                "num_workers": 1,
+                "training": false}},
+    "model": {"name": "resnet50",
+            "args": {
+                "num_classes": 10,
+                "groups": 1,
+                "width_per_group": 64,
+                "replace_stride_with_dilation": null
+            }},
+    "optimizer": {"name": "Adam",
+                "args": {
+                    "lr": 0.01
+                }},
+    "criterion": {"name": "CrossEntropyLoss",
+                "args": {
+                    
+                }},
+    "scheduler": {"name": "ReduceLROnPlateau",
+                "args": {
+                    "mode": "max",
+                    "factor": 0.9,
+                    "patience": 3
+                }}
+}

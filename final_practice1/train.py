@@ -50,7 +50,7 @@ def train(num_epochs, model, train_loader, val_loader, optimizer, criterion, val
             optimizer.step()
 
             description =  f'Epoch [{epoch}/{num_epochs}], Step [{step+1}/{len(train_loader)}]: ' 
-            description += f'running Loss: {round(running_loss,4)}'
+            description += f'running Loss: {round(running_loss.item(),4)}'
             pbar.set_description(description)
 
         if epoch % val_term == 0:
@@ -75,6 +75,7 @@ def train(num_epochs, model, train_loader, val_loader, optimizer, criterion, val
                     scheduler.step()
 
 def main():
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     args = arg_parse()
     with open(args.cfg, 'r') as f:
         cfgs = json.load(f, object_hook=lambda d: namedtuple('x', d.keys())(*d.values()))
@@ -120,5 +121,5 @@ def main():
 
     train(**train_args)
 
-if __name__ == '__main__:
+if __name__ == '__main__':
     main()
