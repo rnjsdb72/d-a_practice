@@ -1,9 +1,8 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F # F 함수 import 추가 _0628나요셉
+
 class BasicBlock(nn.Module):
     expansion = 1
- # #
     def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
                  base_width=64, dilation=1):
         super(BasicBlock, self).__init__()
@@ -31,7 +30,6 @@ class BasicBlock(nn.Module):
         else : out += self.downsample(x)  # down sample 은 stride에 따라 조정됨 stride 가 != 1이면 차원 조정 들어감
         out = F.relu(out)
         return out
-
 
 
 class Bottleneck(nn.Module):
@@ -124,6 +122,21 @@ class ResNet(nn.Module):
     
     def _forward_impl(self, x):
         # 여기 구현
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)
+        x = self.fc(x)
+
+        return x
         
     def forward(self, x):
         return self._forward_impl(x)
